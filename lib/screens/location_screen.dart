@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/services/networking.dart';
 import 'package:flutter_weather_app/utilities/constants.dart';
-
+import 'loading_screen.dart';
 
 class LocationScreen extends StatefulWidget {
+
+  LocationScreen({this.locationWeather});
+
+  final locationWeather; // bu bir property.. buna değer atayacağız ama diğer sayfadan.. ztn amaç bu. loading screende navigate ederken bu propertye bir değer atıyoruz.
+// veriyi LocationScreen objecte aldık. Peki LocationScreen!!STATE!! objecte nasıl aktaracağız? bu ikisi aynı şey değil dikkat et.
+  //burda da ortaya widget. (VİCIT NOKTA meselesi ortaya çıkıyor.)
+  // text widgetlarımız LocationScreenState objectimizin build metodunda yaşıyolar.
+
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
+
+
 class _LocationScreenState extends State<LocationScreen> {
+
+  double? temperature;
+  String? city;
+  String? weather;
+
+  @override
+  void initState(){
+    super.initState();
+    UpdateUI(widget.locationWeather);
+  }
+
+  void UpdateUI(dynamic weatherData) {
+    temperature = weatherData['main']['temp'];
+    city = weatherData['name'];
+    weather = weatherData["weather"][0]["main"];
+
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +82,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Row(
                   children: [
                     Text(
-                      '32°',
+                      '32',
                       style: kTempTextStyle,
                     ),
                     Text(
@@ -75,3 +107,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 }
+
+
+
+
